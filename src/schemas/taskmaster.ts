@@ -18,7 +18,7 @@ export const TaskMasterSubtaskSchema = z.object({
   title: z.string(),
   description: z.string(),
   status: TaskMasterStatusSchema,
-  dependencies: z.array(z.number()).optional(),
+  dependencies: z.array(z.coerce.number()).optional(),
   details: z.string().optional(),
 });
 
@@ -28,7 +28,7 @@ export const TaskMasterTaskSchema = z.object({
   description: z.string(),
   status: TaskMasterStatusSchema,
   priority: TaskMasterPrioritySchema,
-  dependencies: z.array(z.number()),
+  dependencies: z.array(z.coerce.number()),
   complexity: z.number().min(1).max(10).optional(),
   subtasks: z.array(TaskMasterSubtaskSchema).optional(),
   details: z.string().optional(),

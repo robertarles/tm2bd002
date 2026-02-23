@@ -81,6 +81,12 @@ describe('TaskMasterSubtaskSchema', () => {
       expect(result.status).toBe(status);
     }
   });
+
+  it('coerces string dependencies to numbers', () => {
+    const input = validSubtask({ dependencies: ['2', '3'] });
+    const result = TaskMasterSubtaskSchema.parse(input);
+    expect(result.dependencies).toEqual([2, 3]);
+  });
 });
 
 // ===========================================================================
@@ -132,6 +138,18 @@ describe('TaskMasterTaskSchema', () => {
     expect(result.subtasks).toBeUndefined();
     expect(result.details).toBeUndefined();
     expect(result.testStrategy).toBeUndefined();
+  });
+
+  it('coerces string dependencies to numbers', () => {
+    const input = validTask({ dependencies: ['1', '2', '3'] });
+    const result = TaskMasterTaskSchema.parse(input);
+    expect(result.dependencies).toEqual([1, 2, 3]);
+  });
+
+  it('accepts mixed string and number dependencies', () => {
+    const input = validTask({ dependencies: ['1', 2, '3'] });
+    const result = TaskMasterTaskSchema.parse(input);
+    expect(result.dependencies).toEqual([1, 2, 3]);
   });
 
   it('accepts a full task with subtasks and all optional fields', () => {
